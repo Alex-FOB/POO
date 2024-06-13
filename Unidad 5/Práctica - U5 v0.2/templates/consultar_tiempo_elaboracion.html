@@ -1,0 +1,37 @@
+{% extends "base_template2.html" %}
+{% block title %}Ranking de Recetas{% endblock %}
+{% block content %}
+<body>
+    <h1>Sancho Panza</h1>
+    <hr/>
+    <h2>Recetas por tiempo de elaboración</h2>
+    <form action = "{{ url_for('consultar_tiempo_elaboracion') }}" method = "post" class = "container">
+        <label for="tiempo">Tiempo: </label>
+        <input type="number" name="tiempo" placeholder="0.0" required min="0" />
+        <input type="submit" value="Buscar" /><br><br>
+        {% if recetas != None %}
+            <label for="recetas">Recetas</label><br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre de la receta</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for receta in recetas %}
+                        <tr>
+                            <td>{{ receta.nombre }}</td>
+                            <td>
+                                {% if usuario.nombre != receta.usuario.nombre %}
+                                    <input type="submit" name="{{receta.id}}" value="Me gusta" />
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </form>
+</body>
+{% endblock %}
